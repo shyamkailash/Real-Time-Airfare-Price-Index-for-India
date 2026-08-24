@@ -7,9 +7,9 @@ from .base import BaseSource
 logger = logging.getLogger(__name__)
 
 
-class SourceB(BaseSource):
+class SourceC(BaseSource):
     """
-    Source B airfare collector.
+    Source C airfare collector.
 
     Currently implemented as a test collector.
     Replace the fetch logic with the actual permitted API/web
@@ -24,7 +24,7 @@ class SourceB(BaseSource):
     ) -> list[dict]:
 
         logger.info(
-            "Fetching flights from Source B: %s -> %s for %s",
+            "Fetching flights from Source C: %s -> %s for %s",
             origin,
             destination,
             travel_date,
@@ -32,14 +32,14 @@ class SourceB(BaseSource):
 
         return [
             {
-                "source": "source_b",
-                "airline": "Air India",
+                "source": "source_c",
+                "airline": "Akasa Air",
                 "origin": origin,
                 "destination": destination,
                 "travel_date": travel_date.isoformat(),
-                "departure_time": "10:15:00",
+                "departure_time": "14:45:00",
                 "stops": 0,
-                "fare": 6235.0,
+                "fare": 5110.0,
                 "currency": "INR",
                 "collected_at": datetime.now(timezone.utc).isoformat(),
             }
