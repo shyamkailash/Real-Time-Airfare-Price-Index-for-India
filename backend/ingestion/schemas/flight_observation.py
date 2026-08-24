@@ -1,5 +1,6 @@
 from datetime import date, datetime, time
-from pydantic import BaseModel, Field
+
+from pydantic import BaseModel, Field, field_validator
 
 
 class FlightObservation(BaseModel):
@@ -18,3 +19,8 @@ class FlightObservation(BaseModel):
     currency: str = Field(..., min_length=3, max_length=3)
 
     collected_at: datetime
+
+    @field_validator("origin", "destination", "currency")
+    @classmethod
+    def normalize_codes(cls, value: str) -> str:
+        return value.upper()

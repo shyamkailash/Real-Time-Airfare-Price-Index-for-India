@@ -4,3 +4,4 @@ tenacity
 APScheduler
 pytest
 pytest-asyncio
+SQLAlchemy>=2.0

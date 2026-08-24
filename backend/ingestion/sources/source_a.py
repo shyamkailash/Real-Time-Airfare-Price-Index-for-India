@@ -1,3 +1,6 @@
+from time import timezone
+from datetime import datetime, timezone
+
 from ingestion.utils.retry import retry_on_failure
 from ingestion.utils.logging import setup_logger
 
@@ -19,13 +22,15 @@ class SourceA:
 
         return [
             {
-                "carrier": "IndiGo",
-                "from": origin,
-                "to": destination,
-                "date": str(travel_date),
-                "departure": "08:30",
+                "source": "source_a",
+                "airline": "IndiGo",
+                "origin": origin,
+                "destination": destination,
+                "travel_date": str(travel_date),
+                "departure_time": "08:30:00",
                 "stops": 0,
-                "price": 5482,
-                "currency": "INR"
+                "fare": 5482.0,
+                "currency": "INR",
+                "collected_at": datetime.now(timezone.utc).isoformat()
             }
         ]
