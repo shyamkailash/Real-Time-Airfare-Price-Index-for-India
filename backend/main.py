@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import health
 from api.routes import routes
 from api.routes import airlines
+from api.routes import fares
 
 # Create FastAPI application
 app = FastAPI(
@@ -29,6 +30,7 @@ app.add_middleware(
 app.include_router(health.router, prefix="/api", tags=["health"])
 app.include_router(routes.router, prefix="/api", tags=["routes"])
 app.include_router(airlines.router, prefix="/api", tags=["airlines"])
+app.include_router(fares.router, prefix="/api", tags=["fares"])
 
 
 if __name__ == "__main__":
