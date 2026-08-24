@@ -1,1 +1,4 @@
-# Schemas package
+"""
+API Schemas Package
+Contains Pydantic models for request/response validation
+"""
