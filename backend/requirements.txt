@@ -1,0 +1,6 @@
+pydantic>=2.0
+httpx
+tenacity
+APScheduler
+pytest
+pytest-asyncio
