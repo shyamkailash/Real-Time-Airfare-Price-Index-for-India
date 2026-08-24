@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.routes import health
+from api.routes import routes
 
 # Create FastAPI application
 app = FastAPI(
@@ -25,6 +26,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(health.router, prefix="/api", tags=["health"])
+app.include_router(routes.router, prefix="/api", tags=["routes"])
 
 
 if __name__ == "__main__":
