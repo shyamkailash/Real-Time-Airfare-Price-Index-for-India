@@ -29,6 +29,7 @@ class SourceA(BaseSource):
             {
                 "source": "source_a",
                 "airline": "IndiGo",
+                "flight_number": "6E-123",
                 "origin": origin,
                 "destination": destination,
                 "travel_date": travel_date.isoformat(),

@@ -27,4 +27,7 @@ SessionLocal = sessionmaker(
 
 
 def create_database() -> None:
+    from storage.models import FlightObservationModel
+
+    Base.metadata.create_all(bind=engine)
     Base.metadata.create_all(bind=engine)

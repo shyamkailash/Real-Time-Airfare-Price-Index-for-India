@@ -20,6 +20,7 @@ class FlightObservationRepository:
         record = FlightObservationModel(
             source=observation.source,
             airline=observation.airline,
+            flight_number=observation.flight_number,
             origin=observation.origin,
             destination=observation.destination,
             travel_date=observation.travel_date,
@@ -41,19 +42,19 @@ class FlightObservationRepository:
         observations: list[FlightObservation],
     ) -> list[FlightObservationModel]:
 
-        records = [
-            FlightObservationModel(
-                source=observation.source,
-                airline=observation.airline,
-                origin=observation.origin,
-                destination=observation.destination,
-                travel_date=observation.travel_date,
-                departure_time=observation.departure_time,
-                stops=observation.stops,
-                fare=observation.fare,
-                currency=observation.currency,
-                collected_at=observation.collected_at,
-            )
+        records = [FlightObservationModel(
+            source=observation.source,
+            airline=observation.airline,
+            flight_number=observation.flight_number,
+            origin=observation.origin,
+            destination=observation.destination,
+            travel_date=observation.travel_date,
+            departure_time=observation.departure_time,
+            stops=observation.stops,
+            fare=observation.fare,
+            currency=observation.currency,
+            collected_at=observation.collected_at,
+        )
             for observation in observations
         ]
 

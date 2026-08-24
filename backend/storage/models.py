@@ -26,6 +26,11 @@ class FlightObservationModel(Base):
         nullable=False,
         index=True,
     )
+    flight_number: Mapped[str | None] = mapped_column(
+        String(20),
+        nullable=True,
+        index=True,
+    )
 
     origin: Mapped[str] = mapped_column(
         String(3),

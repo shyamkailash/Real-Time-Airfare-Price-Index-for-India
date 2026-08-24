@@ -34,6 +34,7 @@ class SourceB(BaseSource):
             {
                 "source": "source_b",
                 "airline": "Air India",
+                "flight_number": "AI-456",
                 "origin": origin,
                 "destination": destination,
                 "travel_date": travel_date.isoformat(),
