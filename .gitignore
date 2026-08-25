@@ -1,21 +1,13 @@
-# Node
-node_modules/
-dist/
+# Virtual environments
+venv/
+.venv/
 
-# Environment
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
 .env
 
-# OS
-desktop.ini
-
-# Python
-__pycache__/
-*.py[cod]
+# Pytest cache
 .pytest_cache/
-.venv/
-venv/
-
-# SQLite databases
-*.db
-*.sqlite
-*.sqlite3
