@@ -1,7 +1,7 @@
 import axios from 'axios'
 import mock from '../data/mockData'
 
-const base = import.meta.env.VITE_API_BASE_URL || ''
+const base = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
 const client = axios.create({ baseURL: base })
 
 export async function getCurrentIndex(){
@@ -23,35 +23,33 @@ export async function getAirlines(){
 }
 export async function getFlights(params){
   // params: { page, pageSize, q, origin, destination, airline, source, from, to }
-  let data = mock.flightObservations.slice()
-  if(params){
-    if(params.q){
-      const q = params.q.toLowerCase()
-      data = data.filter(f => (f.airline||'').toLowerCase().includes(q) || (f.flightNumber||'').toLowerCase().includes(q) || (f.route||'').toLowerCase().includes(q))
-    }
-    if(params.origin){
-      data = data.filter(f => f.route && f.route.startsWith(params.origin))
-    }
-    if(params.destination){
-      data = data.filter(f => f.route && f.route.endsWith(params.destination))
-    }
-    if(params.airline){
-      data = data.filter(f => f.airline===params.airline)
-    }
-    if(params.from || params.to){
-      data = data.filter(f => {
-        const ts = new Date(f.timestamp).getTime()
-        if(params.from && ts < new Date(params.from).getTime()) return false
-        if(params.to && ts > new Date(params.to).getTime()) return false
-        return true
-      })
-    }
+  const response = await client.get('/api/observations', {
+    params: {
+      page: params?.page || 1,
+      page_size: params?.pageSize || 10,
+      q: params?.q || undefined,
+      origin: params?.origin || undefined,
+      destination: params?.destination || undefined,
+      airline: params?.airline || undefined,
+      source: params?.source || undefined,
+    },
+  })
+
+  return {
+    data: response.data.data.map(observation => ({
+      id: observation.id,
+      timestamp: observation.collected_at,
+      route: `${observation.origin}-${observation.destination}`,
+      flightNumber: observation.flight_number,
+      travelDate: observation.travel_date,
+      fare: observation.fare,
+      currency: observation.currency,
+      stops: observation.stops,
+      source: observation.source,
+      airline: observation.airline,
+    })),
+    total: response.data.total,
   }
-  const page = params?.page||1
-  const pageSize = params?.pageSize||10
-  const start = (page-1)*pageSize
-  const paged = data.slice(start, start+pageSize)
-  return Promise.resolve({ data: paged, total: data.length })
 }
 export async function getDataStatus(){
   return Promise.resolve({ data: mock.collectionStatus })

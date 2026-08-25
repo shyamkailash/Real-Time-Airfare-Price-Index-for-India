@@ -4,7 +4,13 @@ from datetime import date
 
 from fastapi import APIRouter, HTTPException, Query
 
-from api.schemas.airfare import FlightPriceIndex, ObservationResponse, RouteHistoryResponse, RoutePriceIndex
+from api.schemas.airfare import (
+    FlightPriceIndex,
+    ObservationListResponse,
+    ObservationResponse,
+    RouteHistoryResponse,
+    RoutePriceIndex,
+)
 from storage.database import SessionLocal
 from storage.repository import FlightObservationRepository
 
@@ -16,7 +22,63 @@ def health_check() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@router.get("/routes/{origin}/{destination}/{travel_date}", response_model=RouteHistoryResponse)
+@router.get("/observations", response_model=ObservationListResponse)
+def get_observations(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=100),
+    q: str | None = Query(None),
+    origin: str | None = Query(None, min_length=3, max_length=3),
+    destination: str | None = Query(None, min_length=3, max_length=3),
+    airline: str | None = Query(None),
+    source: str | None = Query(None),
+) -> ObservationListResponse:
+    with SessionLocal() as session:
+        repository = FlightObservationRepository(session)
+
+        records, total = repository.get_observations(
+            page=page,
+            page_size=page_size,
+            q=q,
+            origin=origin,
+            destination=destination,
+            airline=airline,
+            source=source,
+        )
+
+    observations = [
+        ObservationResponse(
+            id=record.id,
+            source=record.source,
+            airline=record.airline,
+            flight_number=record.flight_number,
+            origin=record.origin,
+            destination=record.destination,
+            travel_date=record.travel_date,
+            departure_time=(
+                record.departure_time.isoformat()
+                if record.departure_time
+                else None
+            ),
+            stops=record.stops,
+            fare=record.fare,
+            currency=record.currency,
+            collected_at=record.collected_at,
+        )
+        for record in records
+    ]
+
+    return ObservationListResponse(
+        data=observations,
+        total=total,
+        page=page,
+        page_size=page_size,
+    )
+
+
+@router.get(
+    "/routes/{origin}/{destination}/{travel_date}",
+    response_model=RouteHistoryResponse,
+)
 def get_route_history(
     origin: str,
     destination: str,

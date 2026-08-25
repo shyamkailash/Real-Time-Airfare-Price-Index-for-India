@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from sqlalchemy import and_, or_, select
+from sqlalchemy import and_, func, or_, select
 from sqlalchemy.orm import Session
 
 from ingestion.schemas.flight_observation import FlightObservation
@@ -226,3 +226,66 @@ class FlightObservationRepository:
         )
 
         return list(self.session.scalars(statement).all())
+    def get_observations(
+        self,
+        page: int = 1,
+        page_size: int = 10,
+        q: str | None = None,
+        origin: str | None = None,
+        destination: str | None = None,
+        airline: str | None = None,
+        source: str | None = None,
+    ) -> tuple[list[FlightObservationModel], int]:
+        page = max(page, 1)
+        page_size = max(min(page_size, 100), 1)
+
+        statement = select(FlightObservationModel)
+
+        if q:
+            search = f"%{q.strip()}%"
+            statement = statement.where(
+                or_(
+                    FlightObservationModel.airline.ilike(search),
+                    FlightObservationModel.flight_number.ilike(search),
+                    FlightObservationModel.origin.ilike(search),
+                    FlightObservationModel.destination.ilike(search),
+                    FlightObservationModel.source.ilike(search),
+                )
+            )
+
+        if origin:
+            statement = statement.where(
+                FlightObservationModel.origin == origin.upper()
+            )
+
+        if destination:
+            statement = statement.where(
+                FlightObservationModel.destination == destination.upper()
+            )
+
+        if airline:
+            statement = statement.where(
+                FlightObservationModel.airline == airline
+            )
+
+        if source:
+            statement = statement.where(
+                FlightObservationModel.source == source
+            )
+
+        count_statement = select(func.count()).select_from(
+            statement.subquery()
+        )
+
+        total = self.session.scalar(count_statement) or 0
+
+        statement = (
+            statement
+            .order_by(FlightObservationModel.collected_at.desc())
+            .offset((page - 1) * page_size)
+            .limit(page_size)
+        )
+
+        rows = list(self.session.scalars(statement).all())
+
+        return rows, total

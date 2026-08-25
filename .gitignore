@@ -1,7 +1,13 @@
+# Node
 node_modules/
 dist/
+
+# Environment
 .env
+
+# OS
 desktop.ini
+
 # Python
 __pycache__/
 *.py[cod]
