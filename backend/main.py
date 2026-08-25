@@ -3,10 +3,10 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.routes import health
-from api.routes import routes
-from api.routes import airlines
-from api.routes import fares
+from backend.api.routes import health
+from backend.api.routes import routes
+from backend.api.routes import airlines
+from backend.api.routes import fares
 from backend.api.routes.airfare import router as airfare_router
 
 from backend.database.session import initialize_database

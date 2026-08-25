@@ -3,7 +3,7 @@ Health Check Endpoint
 """
 from fastapi import APIRouter
 
-from api.schemas.health import HealthResponse
+from backend.api.schemas.health import HealthResponse
 
 router = APIRouter()
 

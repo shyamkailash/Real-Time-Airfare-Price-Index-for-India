@@ -4,7 +4,7 @@ Routes API endpoints.
 from fastapi import APIRouter
 from typing import List
 
-from api.schemas.routes import RouteResponse
+from backend.api.schemas.routes import RouteResponse
 
 router = APIRouter()
 

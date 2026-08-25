@@ -5,7 +5,7 @@ Provides endpoints for airfare observation data.
 from fastapi import APIRouter
 from typing import List
 
-from api.schemas.fares import FareResponse
+from backend.api.schemas.fares import FareResponse
 
 
 router = APIRouter()

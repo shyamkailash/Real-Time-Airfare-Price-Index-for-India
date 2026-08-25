@@ -5,7 +5,7 @@ Provides endpoints for airline information.
 from fastapi import APIRouter
 from typing import List
 
-from api.schemas.airlines import AirlineResponse
+from backend.api.schemas.airlines import AirlineResponse
 
 
 router = APIRouter()
