@@ -1,0 +1,21 @@
+# Node
+node_modules/
+dist/
+
+# Environment
+.env
+
+# OS
+desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3

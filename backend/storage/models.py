@@ -3,7 +3,7 @@ from datetime import date, datetime, time
 from sqlalchemy import Date, DateTime, Float, Integer, String, Time
 from sqlalchemy.orm import Mapped, mapped_column
 
-from storage.database import Base
+from backend.storage.database import Base
 
 
 class FlightObservationModel(Base):

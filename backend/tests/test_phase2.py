@@ -6,11 +6,11 @@ from datetime import date, datetime, timedelta, timezone
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 
-import ingestion.scheduler.jobs as scheduler_module
-from ingestion.schemas.flight_observation import FlightObservation
-from storage.database import Base
-from storage.models import FlightObservationModel
-from storage.repository import FlightObservationRepository
+import backend.ingestion.scheduler.jobs as scheduler_module
+from backend.ingestion.schemas.flight_observation import FlightObservation
+from backend.storage.database import Base
+from backend.storage.models import FlightObservationModel
+from backend.storage.repository import FlightObservationRepository
 
 
 def make_session_factory(tmp_path):

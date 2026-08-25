@@ -3,9 +3,9 @@ from datetime import date
 
 import pytest
 
-from ingestion.sources.source_a import SourceA
-from ingestion.sources.source_b import SourceB
-from ingestion.sources.source_c import SourceC
+from backend.ingestion.sources.source_a import SourceA
+from backend.ingestion.sources.source_b import SourceB
+from backend.ingestion.sources.source_c import SourceC
 
 
 @pytest.mark.asyncio

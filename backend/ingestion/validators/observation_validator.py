@@ -1,4 +1,4 @@
-from ingestion.schemas.flight_observation import FlightObservation
+from backend.ingestion.schemas.flight_observation import FlightObservation
 
 
 def validate_observation(

@@ -2,9 +2,9 @@ from datetime import date, datetime, time, timezone
 
 import pytest
 
-from ingestion.normalizers.flight_normalizer import normalize_flight
-from ingestion.schemas.flight_observation import FlightObservation
-from ingestion.validators.observation_validator import validate_observation
+from backend.ingestion.normalizers.flight_normalizer import normalize_flight
+from backend.ingestion.schemas.flight_observation import FlightObservation
+from backend.ingestion.validators.observation_validator import validate_observation
 
 
 @pytest.fixture

@@ -18,6 +18,11 @@ class ObservationResponse(BaseModel):
     fare: float
     currency: str
     collected_at: datetime
+class ObservationListResponse(BaseModel):
+    data: list[ObservationResponse]
+    total: int
+    page: int
+    page_size: int
 
 
 class RoutePriceIndex(BaseModel):

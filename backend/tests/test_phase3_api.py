@@ -4,9 +4,9 @@ from datetime import date, datetime, timezone
 
 from fastapi.testclient import TestClient
 
-from main import app
-from storage.database import SessionLocal
-from storage.models import FlightObservationModel
+from backend.main import app
+from backend.storage.database import SessionLocal
+from backend.storage.models import FlightObservationModel
 
 
 client = TestClient(app)

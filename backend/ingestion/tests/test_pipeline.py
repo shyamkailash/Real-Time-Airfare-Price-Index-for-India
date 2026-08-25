@@ -5,8 +5,8 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-import ingestion.scheduler.jobs as jobs_module
-from storage.database import Base
+import backend.ingestion.scheduler.jobs as jobs_module
+from backend.storage.database import Base
 
 
 @pytest.mark.asyncio
