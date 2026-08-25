@@ -1,13 +1,13 @@
 import asyncio
 from datetime import date
 
-from ingestion.collectors.flight_collector import FlightCollector
-from ingestion.sources.source_a import SourceA
-from ingestion.sources.source_b import SourceB
-from ingestion.sources.source_c import SourceC
+from backend.ingestion.collectors.flight_collector import FlightCollector
+from backend.ingestion.sources.source_a import SourceA
+from backend.ingestion.sources.source_b import SourceB
+from backend.ingestion.sources.source_c import SourceC
 
-from storage.database import SessionLocal, create_database
-from storage.repository import FlightObservationRepository
+from backend.storage.database import SessionLocal, create_database
+from backend.storage.repository import FlightObservationRepository
 
 
 async def collect_from_all_sources():

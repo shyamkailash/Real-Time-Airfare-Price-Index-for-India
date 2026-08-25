@@ -1,8 +1,8 @@
 from datetime import date, datetime, timezone
 
-from ingestion.sources.base import BaseSource
-from ingestion.utils.logging import setup_logger
-from ingestion.utils.retry import retry_on_failure
+from backend.ingestion.sources.base import BaseSource
+from backend.ingestion.utils.logging import setup_logger
+from backend.ingestion.utils.retry import retry_on_failure
 
 
 logger = setup_logger(__name__)

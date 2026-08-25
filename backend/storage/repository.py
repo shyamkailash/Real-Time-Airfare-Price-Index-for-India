@@ -3,8 +3,8 @@ from datetime import date, datetime
 from sqlalchemy import and_, func, or_, select
 from sqlalchemy.orm import Session
 
-from ingestion.schemas.flight_observation import FlightObservation
-from storage.models import FlightObservationModel
+from backend.ingestion.schemas.flight_observation import FlightObservation
+from backend.storage.models import FlightObservationModel
 
 
 class FlightObservationRepository:

@@ -1,7 +1,7 @@
 from datetime import date
 
-from storage.database import SessionLocal
-from storage.repository import FlightObservationRepository
+from backend.storage.database import SessionLocal
+from backend.storage.repository import FlightObservationRepository
 
 
 def main():

@@ -5,7 +5,7 @@ from collections.abc import Mapping
 from datetime import date, datetime, time
 from typing import Any
 
-from ingestion.schemas.flight_observation import FlightObservation
+from backend.ingestion.schemas.flight_observation import FlightObservation
 
 
 REQUIRED_FIELDS = (

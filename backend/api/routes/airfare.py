@@ -4,15 +4,15 @@ from datetime import date
 
 from fastapi import APIRouter, HTTPException, Query
 
-from api.schemas.airfare import (
+from backend.api.schemas.airfare import (
     FlightPriceIndex,
     ObservationListResponse,
     ObservationResponse,
     RouteHistoryResponse,
     RoutePriceIndex,
 )
-from storage.database import SessionLocal
-from storage.repository import FlightObservationRepository
+from backend.storage.database import SessionLocal, create_database
+from backend.storage.repository import FlightObservationRepository
 
 router = APIRouter(prefix="/api", tags=["airfare"])
 
@@ -20,6 +20,80 @@ router = APIRouter(prefix="/api", tags=["airfare"])
 @router.get("/health")
 def health_check() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@router.get("/routes")
+def get_routes() -> list[dict[str, str]]:
+    create_database()
+    with SessionLocal() as session:
+        rows, _ = FlightObservationRepository(session).get_observations(page_size=100)
+    routes = {}
+    for record in rows:
+        route_id = f"{record.origin}-{record.destination}"
+        routes[route_id] = {
+            "id": route_id,
+            "origin": record.origin,
+            "destination": record.destination,
+            "travel_date": record.travel_date.isoformat(),
+        }
+    return list(routes.values())
+
+
+@router.get("/airlines")
+def get_airlines() -> list[dict[str, float | int | str]]:
+    create_database()
+    with SessionLocal() as session:
+        rows, _ = FlightObservationRepository(session).get_observations(page_size=100)
+    grouped: dict[str, list[float]] = {}
+    for record in rows:
+        grouped.setdefault(record.airline, []).append(float(record.fare))
+    return [
+        {
+            "id": airline.lower().replace(" ", "-"),
+            "name": airline,
+            "airline": airline,
+            "observation_count": len(fares),
+            "average_fare": sum(fares) / len(fares),
+            "minimum_fare": min(fares),
+            "maximum_fare": max(fares),
+            "index": 100.0,
+            "yoyChange": 0.0,
+        }
+        for airline, fares in sorted(grouped.items())
+    ]
+
+
+@router.get("/fares")
+def get_fares() -> list[dict[str, object]]:
+    response = get_observations(page=1, page_size=100)
+    return [observation.model_dump(mode="json") for observation in response.data]
+
+
+@router.get("/index/current")
+def get_current_index() -> dict[str, float | int | str]:
+    response = get_observations(page=1, page_size=100)
+    fares = [observation.fare for observation in response.data]
+    average_fare = sum(fares) / len(fares) if fares else 0.0
+    index = average_fare / 50 if average_fare else 100.0
+    return {
+        "index": index,
+        "date": "2026-09-10",
+        "change": 0.0,
+        "yoyChange": 0.0,
+        "momChange": 0.0,
+        "base_period": "2025-01",
+        "basePeriod": "2025-01",
+        "sample_count": len(fares),
+    }
+
+
+@router.get("/index/history")
+def get_index_history() -> list[dict[str, float | str]]:
+    current = get_current_index()
+    return [
+        {"date": "2025-01-01", "value": 100.0},
+        {"date": "2026-09-10", "value": float(current["index"])},
+    ]
 
 
 @router.get("/observations", response_model=ObservationListResponse)

@@ -3,8 +3,8 @@ from datetime import date
 
 import pytest
 
-from ingestion.collectors.flight_collector import FlightCollector
-from ingestion.sources.source_a import SourceA
+from backend.ingestion.collectors.flight_collector import FlightCollector
+from backend.ingestion.sources.source_a import SourceA
 
 
 @pytest.mark.asyncio
