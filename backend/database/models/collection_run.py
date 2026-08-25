@@ -20,7 +20,6 @@ class CollectionRun(Base):
     )
 
     started_at: Mapped[datetime] = mapped_column(
-        "started_id",
         DateTime(timezone=True),
         nullable=False,
     )

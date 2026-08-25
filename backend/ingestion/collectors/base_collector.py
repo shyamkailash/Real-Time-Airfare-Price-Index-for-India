@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from datetime import date
 
-from ingestion.schemas.flight_observation import FlightObservation
+from backend.ingestion.schemas.flight_observation import FlightObservation
 
 
 class BaseCollector(ABC):

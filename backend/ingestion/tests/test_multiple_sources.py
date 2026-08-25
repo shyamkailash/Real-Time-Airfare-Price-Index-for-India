@@ -1,12 +1,15 @@
 import asyncio
 from datetime import date
 
-from ingestion.sources.source_a import SourceA
-from ingestion.sources.source_b import SourceB
-from ingestion.sources.source_c import SourceC
+import pytest
+
+from backend.ingestion.sources.source_a import SourceA
+from backend.ingestion.sources.source_b import SourceB
+from backend.ingestion.sources.source_c import SourceC
 
 
-async def main():
+@pytest.mark.asyncio
+async def test_all_sources_return_one_record():
     collectors = [
         SourceA(),
         SourceB(),
@@ -14,19 +17,13 @@ async def main():
     ]
 
     for collector in collectors:
-        print("\n" + "=" * 60)
-        print(f"COLLECTOR: {collector.__class__.__name__}")
-        print("=" * 60)
-
         records = await collector.fetch(
             origin="DEL",
             destination="BOM",
             travel_date=date(2026, 9, 10),
         )
 
-        for record in records:
-            print(record)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
+        assert len(records) == 1
+        assert records[0]["origin"] == "DEL"
+        assert records[0]["destination"] == "BOM"
+        assert records[0]["currency"] in {"INR", "inr"}

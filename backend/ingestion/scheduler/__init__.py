@@ -1,1 +1,1 @@
-# Scheduler package
+"""Scheduler package."""

@@ -34,6 +34,7 @@ class SourceC(BaseSource):
             {
                 "source": "source_c",
                 "airline": "Akasa Air",
+                "flight_number": "QP-456", 
                 "origin": origin,
                 "destination": destination,
                 "travel_date": travel_date.isoformat(),

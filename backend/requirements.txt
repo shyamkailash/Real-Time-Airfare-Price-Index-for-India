@@ -1,10 +1,12 @@
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
 pydantic>=2.0
 httpx
-tenacity
-APScheduler
 pytest
 pytest-asyncio
-
-SQLAlchemy>=2.0
+tenacity
+APScheduler
 psycopg[binary]>=3.3
+python-dotenv
+SQLAlchemy>=2.0
 alembic>=1.19
