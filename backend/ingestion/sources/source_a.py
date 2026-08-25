@@ -1,31 +1,42 @@
-from ingestion.utils.retry import retry_on_failure
-from ingestion.utils.logging import setup_logger
+from datetime import date, datetime, timezone
+
+from backend.ingestion.sources.base import BaseSource
+from backend.ingestion.utils.logging import setup_logger
+from backend.ingestion.utils.retry import retry_on_failure
 
 
 logger = setup_logger(__name__)
 
 
-class SourceA:
+class SourceA(BaseSource):
 
     @retry_on_failure
-    async def fetch(self, origin, destination, travel_date):
+    async def fetch(
+        self,
+        origin: str,
+        destination: str,
+        travel_date: date,
+    ) -> list[dict]:
 
         logger.info(
             "Fetching flights: %s -> %s for %s",
             origin,
             destination,
-            travel_date
+            travel_date,
         )
 
         return [
             {
-                "carrier": "IndiGo",
-                "from": origin,
-                "to": destination,
-                "date": str(travel_date),
-                "departure": "08:30",
+                "source": "source_a",
+                "airline": "IndiGo",
+                "flight_number": "6E-123",
+                "origin": origin,
+                "destination": destination,
+                "travel_date": travel_date.isoformat(),
+                "departure_time": "08:30:00",
                 "stops": 0,
-                "price": 5482,
-                "currency": "INR"
+                "fare": 5482.0,
+                "currency": "INR",
+                "collected_at": datetime.now(timezone.utc).isoformat(),
             }
         ]
